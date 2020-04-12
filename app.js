@@ -1,10 +1,21 @@
 
 // requires
-var express = require('express');
 import { colores } from './colores';
+var express = require('express');
+var mongoose = require('mongoose');
 
 // Inicializar variables
 var app = express();
+
+// conexion a la base de datos:
+
+mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB',(err, res) => {
+
+    if(err) throw err;
+    
+    console.log(`Base de datos:  ${ colores.FgGreen }%s${colores.Reset} `, 'online');
+
+})
 
 
 // rutas:

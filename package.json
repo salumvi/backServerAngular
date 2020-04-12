@@ -4,13 +4,14 @@
   "description": "servidor backend del curso de angular",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js --exec babel-node",    
+    "start": "nodemon app.js --exec babel-node",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Juan Pedro Vicente mulas",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^5.9.7"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
