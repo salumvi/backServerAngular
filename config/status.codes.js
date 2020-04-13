@@ -1,4 +1,4 @@
-export const statuCodes= {
+export const statusCodes= {
     code_100: {code:100 , name: 'Continue' },
     code_101: {code:101, name: 'Switching Protocols' },
     code_200: {code:200, name: 'OK' },
