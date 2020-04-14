@@ -1,13 +1,15 @@
-var jwt = require('jsonwebtoken');
+//var jwt = require('jsonwebtoken');
+import * as jwt  from '../node_modules/jsonwebtoken/';
 import { SEED } from "../config/config";
 
 //==============================
 // Verificar Token, a partir de aqui todas las operaciones necesitan autenticación
 //==============================
 
-export const verificaToken = function(req, res, next) {
+export function verificaToken(req, res, next) {
 
     var token = req.query.token;
+    
     jwt.verify(token,SEED,(err, decoder)=>{
         // si hay error no salimos porque el token no es valido
         if(err) {
