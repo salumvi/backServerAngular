@@ -26,6 +26,8 @@ var usuarioRoutes= require('./routes/usuario');
 var medicoRoutes= require('./routes/medico');
 var hospitalRoutes= require('./routes/hospital');
 var loginRoutes= require('./routes/login');
+var busquedaRoutes= require('./routes/busqueda');
+
 
 
 
@@ -34,16 +36,21 @@ var loginRoutes= require('./routes/login');
 
 // conexion a la base de datos:
 
-mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB',(err, res) => {
+mongoose.connect('mongodb://localhost:27017/hospitalDB', { 
+    useNewUrlParser: true,  
+    useCreateIndex: true, 
+    useUnifiedTopology: true },
+    (err) => {
 
     if(err) throw err;
     
     console.log(`Base de datos:  ${ colores.FgGreen }%s${colores.Reset} `, 'online');
 
-})
+});
 
 
 // Rutas:
+app.use('/busqueda', busquedaRoutes);
 app.use('/usuario', usuarioRoutes);
 app.use('/hospital', hospitalRoutes);
 app.use('/medico', medicoRoutes);
