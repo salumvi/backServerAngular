@@ -14,6 +14,8 @@ email: {type: String, unique: [true, 'elija otro emal, este ya está repetido'],
 password: {type: String, required:[true, 'contraseña es obligatoria'] },
 img: {type: String, required: false},
 role: {type: String, required: true, default: 'USER_ROLE', enum: rolesValidos},
+googleuser: {type: Boolean,  default: false},
+
 });
 
 usuarioSchema.plugin(uniqueValidator, {message: '{PATH} debe ser único'});
