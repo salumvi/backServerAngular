@@ -106,7 +106,7 @@ app.put('/:id',verificaToken, (req, res) => {
 //==============================
 // Crear un nuevo usuario
 //==============================
-app.post('/',verificaToken, (req, res) => {
+app.post('/', (req, res) => {
 
     // este body se obtiene por el body-parser
     var body = req.body;
