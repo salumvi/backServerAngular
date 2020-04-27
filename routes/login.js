@@ -88,7 +88,8 @@ app.post('/google', async (req, res) => {
                     ok: true,
                     usuario: usuarioDB,
                     id: usuarioDB._id,
-                    token: token
+                    token: token,
+                    menu: getMenu(usuarioDB.role)
                 });
             }
 
@@ -117,7 +118,9 @@ app.post('/google', async (req, res) => {
                     ok: true,
                     usuario: usuarioDB,
                     id: usuarioDB._id,
-                    token: token
+                    token: token,
+                    menu: getMenu(usuarioDB.role)
+
                 });
             });
         }
@@ -150,7 +153,7 @@ app.post('/', (req, res) => {
             });
         }
         if (!usuarioDB) {
-            return res.status(201).json({
+            return res.status(400).json({
                 ok: false,
                 mensaje: 'Credenciales incorrectas',
                 errors: { message: 'El email: ' + body.email + ' no está registrado' },
@@ -159,7 +162,7 @@ app.post('/', (req, res) => {
         }
         //Comparamos las claves
         if (!bcrypt.compareSync(body.password, usuarioDB.password)) {
-            return res.status(201).json({
+            return res.status(400).json({
                 ok: false,
                 mensaje: 'Credenciales incorrectas',
                 errors: { message: 'El pass: ' + body.password + ' no está registrado' }
@@ -176,11 +179,44 @@ app.post('/', (req, res) => {
             ok: true,
             usuario: usuarioDB,
             id: usuarioDB._id,
-            token: token
+            token: token,
+            menu: getMenu(usuarioDB.role)
         });
     });
 
 });
+
+
+ function getMenu(role){
+   var menu = [{
+        titulo: 'Principal',
+        icono: 'mdi mdi-gauge',
+        submenu: [
+            { titulo: 'Dashboard', url: '/dashboard' },
+            { titulo: 'Progress', url: '/progress' },
+            { titulo: 'Gráficas', url: '/graficas1' },
+            { titulo: 'Temas', url: '/account-settings' },
+            { titulo: 'Promesas', url: '/promesas' },
+            { titulo: 'Rxjs', url: '/rxjs' },
+
+        ]
+    }, {
+        titulo: 'Mantenimiento',
+        icono: 'mdi mdi-spin mdi-shovel-off',
+        submenu: [
+            // { titulo: 'Usuarios', url:  '/usuarios' },
+            { titulo: 'Medicos', url: '/medicos' },
+            { titulo: 'hospitales', url: '/hospitales' }
+        ]
+    }
+    ];
+
+    if (role === 'ADMIN_ROLE') {
+        menu[1].submenu.unshift({ titulo: 'Usuarios', url: '/usuarios' });
+    }
+    return menu;
+
+}
 
 
 

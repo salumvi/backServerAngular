@@ -17,15 +17,15 @@ app.put('/:tipo/:id', (req, res) => {
 
     let uploadFile;
     let uploadPath;
-
-    if (!req.files || Object.keys(req.files).length === 0) {
+    
+    if (!req.files || Object.keys(req.files.imagen).length === 0) {
         return res.status(400).json({
             ok: false,
             error: 'No se ha enviado archivo archivo'
         });
     }
 
-    uploadFile = req.files.file;
+    uploadFile = req.files.imagen;
     // comprobamos el tipo de archivo:
     let tipoArchivo = uploadFile.mimetype;
 
@@ -66,13 +66,13 @@ app.put('/:tipo/:id', (req, res) => {
                     tipo: tipoArchivo
                 });
         }
+     
     });
 
     guardarImagen(tipo, id, nombreNuevoArchivo, res );
 
    
 });
-
 
 
 function  guardarImagen(tipo, id, nombreArchivo, res ){

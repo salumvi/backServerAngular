@@ -1,6 +1,6 @@
 var express = require('express');
 var bcrypt = require('bcryptjs');
-import {verificaToken}  from "../middelwares/autenticacion";
+import {verificaToken, verificaADMIN_ROLE}  from "../middelwares/autenticacion";
 
 
 var app = express();
@@ -18,7 +18,7 @@ app.get('/', (req, res, next) => {
     desde = Number(desde);
 
 
-    Usuario.find({}, 'nombre email img role')
+    Usuario.find({}, 'nombre email img role googleuser')
     .skip(desde)
     .limit(5)
         .exec(
@@ -51,7 +51,7 @@ app.get('/', (req, res, next) => {
 //==============================
 // Actualizar un usuario
 //==============================
-app.put('/:id',verificaToken, (req, res) => {
+app.put('/:id',[verificaToken,verificaADMIN_ROLE], (req, res) => {
     var id = req.params.id;
     var body = req.body;
 
@@ -108,6 +108,7 @@ app.put('/:id',verificaToken, (req, res) => {
 //==============================
 app.post('/', (req, res) => {
 
+    console.log(req.body);
     // este body se obtiene por el body-parser
     var body = req.body;
     var usuario = new Usuario({
@@ -142,7 +143,7 @@ app.post('/', (req, res) => {
 //==============================
 // Borrar un nuevo usuario
 //==============================
-app.delete('/:id',verificaToken,(req, res) => {
+app.delete('/:id',[verificaToken, verificaADMIN_ROLE],(req, res) => {
     var id = req.params.id;
     Usuario.findOneAndDelete({_id: id}, (err, usuarioBorrado) =>{
         if (err) {

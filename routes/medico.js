@@ -17,7 +17,7 @@ app.get('/', (req, res, next) => {
 
     Medico.find()
     .skip(desde)
-    .limit(5)
+    //.limit(5)
     .populate('usuario', 'nombre email')
     .populate('hospital')
     .exec((err, medicos) => {
@@ -167,6 +167,41 @@ app.delete('/:id', verificaToken, (req, res) => {
 
 });
 
+/**
+ * GetById: buscar Medico por Id de medico.
+ * ruta: /medico/:id
+ */
+app.get('/:id',(req, res) =>{
+    var id = req.params.id;
+    Medico.findById(id)
+          .populate('hospital')
+          .exec((err, medico) => {
+        if(err) {
+            return res.status(500).json({
+                ok: false,
+                mensaje: 'Error en Baqse de datos medico',
+                errors: err
+            });
+
+        }
+        if(!medico) {
+            return res.status(400).json({
+                ok: false,
+                mensaje: 'El médico no existe',
+                errors: err
+            });
+        }
+
+
+        return res.status(200).json({
+            ok: true,
+             medico: medico
+        });
+
+    });
+
+
+});
 
 
 module.exports = app;

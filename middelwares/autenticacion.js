@@ -1,5 +1,5 @@
 //var jwt = require('jsonwebtoken');
-import * as jwt  from '../node_modules/jsonwebtoken/';
+import * as jwt from '../node_modules/jsonwebtoken/';
 import { SEED } from "../config/config";
 
 //==============================
@@ -9,10 +9,10 @@ import { SEED } from "../config/config";
 export function verificaToken(req, res, next) {
 
     var token = req.query.token;
-    
-    jwt.verify(token,SEED,(err, decoder)=>{
+
+    jwt.verify(token, SEED, (err, decoder) => {
         // si hay error no salimos porque el token no es valido
-        if(err) {
+        if (err) {
             return res.status(401).json({
                 ok: false,
                 mensaje: 'Token No valido',
@@ -20,7 +20,7 @@ export function verificaToken(req, res, next) {
             });
         }
 
-        req.usuario=decoder.usuario;
+        req.usuario = decoder.usuario;
 
         // res.status(200).json({
         //     ok: true,
@@ -30,5 +30,20 @@ export function verificaToken(req, res, next) {
         next();
     });
 
+}
+
+export function verificaADMIN_ROLE(req, res, next) {
+
+    if (req.usuario.role === 'ADMIN_ROLE') {
+        next();
+        return;
+
+    } else {
+        return res.status(401).json({
+            ok: false,
+            mensaje: 'Token No valido',
+            errors: err
+        });
+    }
 }
 
