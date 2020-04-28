@@ -4,6 +4,8 @@ var jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 
 import { SEED, CLIENT_ID } from "../config/config";
+import {verificaToken, verificaADMIN_ROLE}  from "../middelwares/autenticacion";
+
 
 var app = express();
 
@@ -185,6 +187,22 @@ app.post('/', (req, res) => {
     });
 
 });
+
+//========================
+// Crear Nuevo Token 
+//========================
+app.get('/getnewtoken',verificaToken,(req, res) => {
+
+    // verificamos el token, si no es correcto se sale se tiene que volver a logar
+    // generamos un token nuevo: 
+    var token = jwt.sign({ usuario: req.usuario }, SEED, { expiresIn: 14400 }); // 4 horas 
+
+    res.status(200).json({
+        ok: true,
+        token: token
+    });
+});
+
 
 
  function getMenu(role){
